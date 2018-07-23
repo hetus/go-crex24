@@ -23,18 +23,18 @@ import (
 */
 
 type Ticker struct {
-	Instrument    string    `json:"instrument"`
-	Last          float64   `json:"last"`
-	PercentChange float64   `json:"percentChange"`
-	Low           float64   `json:"low"`
-	High          float64   `json:"high"`
-	BaseVolume    float64   `json:"baseVolume"`
-	QuoteVolume   float64   `json:"quoteVolume"`
-	VolumeInBtc   float64   `json:"volumeInBtc"`
-	VolumeInUsd   float64   `json:"volumeInUsd"`
-	Ask           float64   `json:"ask"`
-	Bid           float64   `json:"bid"`
-	Timestamp     time.Time `json:"timestamp"`
+	Instrument    string    `json:"instrument,omitempty"`
+	Last          float64   `json:"last,omitempty"`
+	PercentChange float64   `json:"percentChange,omitempty"`
+	Low           float64   `json:"low,omitempty"`
+	High          float64   `json:"high,omitempty"`
+	BaseVolume    float64   `json:"baseVolume,omitempty"`
+	QuoteVolume   float64   `json:"quoteVolume,omitempty"`
+	VolumeInBtc   float64   `json:"volumeInBtc,omitempty"`
+	VolumeInUsd   float64   `json:"volumeInUsd,omitempty"`
+	Ask           float64   `json:"ask,omitempty"`
+	Bid           float64   `json:"bid,omitempty"`
+	Timestamp     time.Time `json:"timestamp,omitempty"`
 }
 
 func (t *Ticker) String() (s string) {

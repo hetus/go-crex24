@@ -14,9 +14,9 @@ import (
 */
 
 type Balance struct {
-	Currency  string  `json:"currency"`
-	Available float64 `json:"available"`
-	Reserved  float64 `json:"reserved"`
+	Currency  string  `json:"currency,omitempty"`
+	Available float64 `json:"available,omitempty"`
+	Reserved  float64 `json:"reserved,omitempty"`
 }
 
 func (b *Balance) String() (s string) {

@@ -19,15 +19,15 @@ import "fmt"
 */
 
 type Instrument struct {
-	Symbol              string   `json:"symbol"`
-	BaseCurrency        string   `json:"baseCurrency"`
-	QuoteCurrency       string   `json:"quoteCurrency"`
-	FeeCurrency         string   `json:"feeCurrency"`
-	TickSize            float64  `json:"tickSize"`
-	MinPrice            float64  `json:"minPrice"`
-	MinVolume           float64  `json:"minVolume"`
-	SupportedOrderTypes []string `json:"supportedOrderTypes"`
-	State               string   `json:"state"`
+	Symbol              string   `json:"symbol,omitempty"`
+	BaseCurrency        string   `json:"baseCurrency,omitempty"`
+	QuoteCurrency       string   `json:"quoteCurrency,omitempty"`
+	FeeCurrency         string   `json:"feeCurrency,omitempty"`
+	TickSize            float64  `json:"tickSize,omitempty"`
+	MinPrice            float64  `json:"minPrice,omitempty"`
+	MinVolume           float64  `json:"minVolume,omitempty"`
+	SupportedOrderTypes []string `json:"supportedOrderTypes,omitempty"`
+	State               string   `json:"state,omitempty"`
 }
 
 func (i *Instrument) String() (s string) {

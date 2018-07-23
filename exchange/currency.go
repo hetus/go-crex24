@@ -22,18 +22,18 @@ import (
 */
 
 type Currency struct {
-	Symbol                   string      `json:"symbol"`
-	Name                     string      `json:"name"`
-	IsFiat                   bool        `json:"isFiat"`
-	DepositsAllowed          bool        `json:"depositsAllowed"`
-	DepositConfirmationCount int64       `json:"depositConfirmationCount"`
-	MinDeposit               float64     `json:"minDeposit"`
-	WithdrawalsAllowed       bool        `json:"withdrawalsAllowed"`
-	WithdrawalPrecision      int64       `json:"withdrawalPrecision"`
-	MinWithdrawal            float64     `json:"minWithdrawal"`
-	MaxWithdrawal            interface{} `json:"maxWithdrawal"`
-	FlatWithdrawalFee        float64     `json:"flatWithdrawalFee"`
-	IsDelisted               bool        `json:"isDelisted"`
+	Symbol                   string      `json:"symbol,omitempty"`
+	Name                     string      `json:"name,omitempty"`
+	IsFiat                   bool        `json:"isFiat,omitempty"`
+	DepositsAllowed          bool        `json:"depositsAllowed,omitempty"`
+	DepositConfirmationCount int64       `json:"depositConfirmationCount,omitempty"`
+	MinDeposit               float64     `json:"minDeposit,omitempty"`
+	WithdrawalsAllowed       bool        `json:"withdrawalsAllowed,omitempty"`
+	WithdrawalPrecision      int64       `json:"withdrawalPrecision,omitempty"`
+	MinWithdrawal            float64     `json:"minWithdrawal,omitempty"`
+	MaxWithdrawal            interface{} `json:"maxWithdrawal,omitempty"`
+	FlatWithdrawalFee        float64     `json:"flatWithdrawalFee,omitempty"`
+	IsDelisted               bool        `json:"isDelisted,omitempty"`
 }
 
 func (c *Currency) String() (s string) {

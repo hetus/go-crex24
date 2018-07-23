@@ -16,10 +16,10 @@ import (
 */
 
 type Trade struct {
-	Price     float64   `json:"price"`
-	Volume    float64   `json:"volume"`
-	Side      string    `json:"side"`
-	Timestamp time.Time `json:"timestamp"`
+	Price     float64   `json:"price,omitempty"`
+	Volume    float64   `json:"volume,omitempty"`
+	Side      string    `json:"side,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty"`
 }
 
 func (t *Trade) String() (s string) {
