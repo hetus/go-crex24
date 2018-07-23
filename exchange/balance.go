@@ -24,7 +24,7 @@ func (e *Exchange) Balance(currency string) (c *Balance, err error) {
 	params := EmptyParams()
 
 	var bs Balances
-	err = e.getJSON("/public/balances?currency="+currency+"&nonZeroOnly=false", params, &bs, true)
+	err = e.getJSON("/v2/account/balance?currency="+currency+"&nonZeroOnly=false", params, &bs, true)
 	if err == nil && len(bs) > 0 {
 		c = bs[0]
 	}
@@ -33,6 +33,6 @@ func (e *Exchange) Balance(currency string) (c *Balance, err error) {
 
 func (e *Exchange) Balances(nonZeroOnly bool) (bs Balances, err error) {
 	params := EmptyParams()
-	err = e.getJSON("/public/balances?nonZeroOnly="+strconv.FormatBool(nonZeroOnly), params, &bs, true)
+	err = e.getJSON("/v2/account/balance?nonZeroOnly="+strconv.FormatBool(nonZeroOnly), params, &bs, true)
 	return
 }

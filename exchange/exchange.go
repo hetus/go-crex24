@@ -1,10 +1,12 @@
 package exchange
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
 
-	"github.com/methuselahdev/go-crex24/client"
-	"github.com/methuselahdev/go-crex24/config"
+	"github.com/hetus/go-crex24/client"
+	"github.com/hetus/go-crex24/config"
 )
 
 type Exchange struct {
@@ -20,7 +22,17 @@ func (e *Exchange) getJSON(path string, data, res interface{}, auth bool) (err e
 	}
 	defer r.Body.Close()
 
-	err = json.NewDecoder(r.Body).Decode(res)
+	var b []byte
+	b, err = ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+
+	if auth {
+		b = bytes.TrimPrefix(b, []byte("\xef\xbb\xbf"))
+	}
+
+	err = json.NewDecoder(bytes.NewReader(b)).Decode(res)
 	return
 }
 

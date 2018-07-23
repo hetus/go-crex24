@@ -8,8 +8,8 @@ import (
 	"time"
 
 	httpclient "github.com/ddliu/go-httpclient"
-	"github.com/methuselahdev/go-crex24/auth"
-	"github.com/methuselahdev/go-crex24/config"
+	"github.com/hetus/go-crex24/auth"
+	"github.com/hetus/go-crex24/config"
 )
 
 // Response for requests.
@@ -48,7 +48,7 @@ func (c *Client) Get(path string, params map[string]string, auth bool) (res Resp
 
 // Nonce increments the nonce and sets the header.
 func (c *Client) Nonce() (n string) {
-	c.nonce++
+	c.nonce = time.Now().UTC().UnixNano()
 	n = strconv.FormatInt(c.nonce, 10)
 	c.api.Headers["X-CREX24-API-NONCE"] = n
 	if c.debug {
@@ -112,7 +112,7 @@ func (c *Client) Sign(path, data string) (err error) {
 
 // URL returns the api host plus version.
 func (c *Client) URL() (url string) {
-	url = c.url + "/" + c.version
+	url = c.url // + "/" + c.version
 	return
 }
 

@@ -50,7 +50,7 @@ func (e *Exchange) Currency(symbol string) (c *Currency, err error) {
 	params := EmptyParams()
 
 	var cs Currencies
-	err = e.getJSON("/public/currencies?filter="+symbol, params, &cs, false)
+	err = e.getJSON("/v2/public/currencies?filter="+symbol, params, &cs, false)
 	if err == nil && len(cs) > 0 {
 		c = cs[0]
 	}
@@ -59,6 +59,6 @@ func (e *Exchange) Currency(symbol string) (c *Currency, err error) {
 
 func (e *Exchange) Currencies() (cs Currencies, err error) {
 	params := EmptyParams()
-	err = e.getJSON("/public/currencies", params, &cs, false)
+	err = e.getJSON("/v2/public/currencies", params, &cs, false)
 	return
 }

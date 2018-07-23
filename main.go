@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/methuselahdev/go-crex24/exchange"
+	"github.com/hetus/go-crex24/exchange"
 )
 
 func main() {
