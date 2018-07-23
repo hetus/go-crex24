@@ -66,6 +66,14 @@ func main() {
 	fmt.Printf("Recent Trades (LTC-BTC): %d\n", len(tss))
 	fmt.Printf("%v\n\n", tss[0])
 
+	// Order
+	ob, err := e.OrderBook("LTC-BTC", 5)
+	if err != nil {
+		fmt.Printf("Order Book (LTC-BTC): %v\n", err)
+	}
+	fmt.Printf("Order Book (LTC-BTC): Buys: %d, Sells: %d\n", len(ob.Buy), len(ob.Sell))
+	fmt.Printf("Buy: %v\nSell: %v\n\n", ob.Buy[0], ob.Sell[0])
+
 	/** Auth Required */
 	fmt.Printf("\t*** AUTH REQUIRED ***\n\n")
 

@@ -32,14 +32,14 @@ func (t *Trade) String() (s string) {
 
 type Trades []*Trade
 
-func (e *Exchange) RecentTrades(instrument string, limit int64) (is Trades, err error) {
+func (e *Exchange) RecentTrades(instrument string, limit int64) (ts Trades, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100 // Current API default
 	}
 	params := EmptyParams()
 	err = e.getJSON(
 		"/v2/public/recentTrades?instrument="+instrument+"&limit="+strconv.FormatInt(limit, 10),
-		params, &is, false,
+		params, &ts, false,
 	)
 	return
 }

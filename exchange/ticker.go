@@ -47,19 +47,19 @@ func (t *Ticker) String() (s string) {
 
 type Tickers []*Ticker
 
-func (e *Exchange) Ticker(instrument string) (i *Ticker, err error) {
+func (e *Exchange) Ticker(instrument string) (t *Ticker, err error) {
 	params := EmptyParams()
 
-	var is Tickers
-	err = e.getJSON("/v2/public/tickers?instrument="+instrument, params, &is, false)
-	if err == nil && len(is) > 0 {
-		i = is[0]
+	var ts Tickers
+	err = e.getJSON("/v2/public/tickers?instrument="+instrument, params, &ts, false)
+	if err == nil && len(ts) > 0 {
+		t = ts[0]
 	}
 	return
 }
 
-func (e *Exchange) Tickers() (is Tickers, err error) {
+func (e *Exchange) Tickers() (ts Tickers, err error) {
 	params := EmptyParams()
-	err = e.getJSON("/v2/public/tickers", params, &is, false)
+	err = e.getJSON("/v2/public/tickers", params, &ts, false)
 	return
 }
