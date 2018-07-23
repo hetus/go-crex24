@@ -15,7 +15,7 @@ func main() {
 	// Currency
 	cs, err := e.Currencies()
 	if err != nil {
-		fmt.Printf("Currencies: %v", err)
+		fmt.Printf("Currencies: %v\n", err)
 	}
 	fmt.Printf("Currencies: %d\n\n", len(cs))
 
@@ -48,7 +48,7 @@ func main() {
 	// Ticker
 	ts, err := e.Tickers()
 	if err != nil {
-		fmt.Printf("Tickers: %v", err)
+		fmt.Printf("Tickers: %v\n", err)
 	}
 	fmt.Printf("Tickers: %d\n\n", len(ts))
 
@@ -57,6 +57,14 @@ func main() {
 		fmt.Printf("Ticker (BTC-USD): %v\n", err)
 	}
 	fmt.Printf("%v\n\n", t)
+
+	// Trade
+	tss, err := e.RecentTrades("LTC-BTC", 5)
+	if err != nil {
+		fmt.Printf("Recent Trades (LTC-BTC): %v\n", err)
+	}
+	fmt.Printf("Recent Trades (LTC-BTC): %d\n", len(tss))
+	fmt.Printf("%v\n\n", tss[0])
 
 	/** Auth Required */
 	fmt.Printf("\t*** AUTH REQUIRED ***\n\n")
