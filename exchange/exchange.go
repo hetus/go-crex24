@@ -3,11 +3,16 @@ package exchange
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 
 	"github.com/hetus/go-crex24/client"
 	"github.com/hetus/go-crex24/config"
 )
+
+type ErrorResponse struct {
+	Message string `json:"errorDescription"`
+}
 
 type Exchange struct {
 	c   *client.Client
@@ -32,7 +37,15 @@ func (e *Exchange) getJSON(path string, data, res interface{}, auth bool) (err e
 		b = bytes.TrimPrefix(b, []byte("\xef\xbb\xbf"))
 	}
 
-	err = json.NewDecoder(bytes.NewReader(b)).Decode(res)
+	decoder := json.NewDecoder(bytes.NewReader(b))
+	err = decoder.Decode(res)
+	if err != nil {
+		var res2 ErrorResponse
+		err2 := decoder.Decode(&res2)
+		if err2 == nil {
+			err = errors.New(res2.Message)
+		}
+	}
 	return
 }
 
