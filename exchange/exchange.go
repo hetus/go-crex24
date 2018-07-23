@@ -1,66 +1,31 @@
 package exchange
 
 import (
-	"bytes"
-	"encoding/json"
-	"errors"
-	"io/ioutil"
-
 	"github.com/hetus/go-crex24/client"
 	"github.com/hetus/go-crex24/config"
 )
 
-type ErrorResponse struct {
-	Message string `json:"errorDescription"`
-}
-
+// Exchange is an object that provides the API
+// for external package usage.
 type Exchange struct {
 	c   *client.Client
 	cfg *config.Config
 }
 
+// getJSON is a shortcut method.
 func (e *Exchange) getJSON(path string, data, res interface{}, auth bool) (err error) {
-	var r client.Response
-	r, err = e.c.Get(path, data.(map[string]string), auth)
-	if err != nil {
-		return
-	}
-	defer r.Body.Close()
-
-	var b []byte
-	b, err = ioutil.ReadAll(r.Body)
-	if err != nil {
-		return
-	}
-
-	if auth {
-		b = bytes.TrimPrefix(b, []byte("\xef\xbb\xbf"))
-	}
-
-	decoder := json.NewDecoder(bytes.NewReader(b))
-	err = decoder.Decode(res)
-	if err != nil {
-		var res2 ErrorResponse
-		err2 := decoder.Decode(&res2)
-		if err2 == nil {
-			err = errors.New(res2.Message)
-		}
-	}
+	err = e.c.Get(path, data.(map[string]string), res, auth)
 	return
 }
 
+// postJSON is a shortcut method.
 func (e *Exchange) postJSON(path string, data, res interface{}, auth bool) (err error) {
-	var r client.Response
-	r, err = e.c.Post(path, data, auth)
-	if err != nil {
-		return
-	}
-	defer r.Body.Close()
-
-	err = json.NewDecoder(r.Body).Decode(res)
+	err = e.c.Post(path, data, res, auth)
 	return
 }
 
+// New returns a new exchange object that is
+// configured according to provide Config object.
 func New() (e *Exchange) {
 	cfg := config.New()
 	e = &Exchange{

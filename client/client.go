@@ -12,10 +12,9 @@ import (
 	"github.com/hetus/go-crex24/config"
 )
 
-// Response for requests.
-type Response httpclient.Response
-
 // Client is the http client wrapper for Crex24.
+// It handles signing of messages to authentication
+// required routes and the JSON encoding and decoding.
 type Client struct {
 	api     *httpclient.HttpClient
 	debug   bool
@@ -28,7 +27,7 @@ type Client struct {
 }
 
 // Get will make a GET request with provided path and params.
-func (c *Client) Get(path string, params map[string]string, auth bool) (res Response, err error) {
+func (c *Client) Get(path string, params map[string]string, res interface{}, auth bool) (err error) {
 	if c.debug {
 		fmt.Println("GET:", auth, path, params)
 	}
@@ -41,8 +40,9 @@ func (c *Client) Get(path string, params map[string]string, auth bool) (res Resp
 	if err != nil {
 		return
 	}
+	defer r.Body.Close()
 
-	res = Response(*r)
+	err = handleResponse(r, res, auth)
 	return
 }
 
@@ -58,12 +58,13 @@ func (c *Client) Nonce() (n string) {
 }
 
 // Post will make a POST request.
-func (c *Client) Post(path string, data interface{}, auth bool) (res Response, err error) {
+func (c *Client) Post(path string, d, res interface{}, auth bool) (err error) {
 	if c.debug {
-		fmt.Println("POST:", auth, path, data)
+		fmt.Println("POST:", auth, path, d)
 	}
+
 	var buf bytes.Buffer
-	err = json.NewEncoder(&buf).Encode(data)
+	err = json.NewEncoder(&buf).Encode(d)
 	if err != nil {
 		return
 	}
@@ -72,12 +73,13 @@ func (c *Client) Post(path string, data interface{}, auth bool) (res Response, e
 	}
 
 	var r *httpclient.Response
-	r, err = c.api.PostJson(c.URL()+path, data)
+	r, err = c.api.PostJson(c.URL()+path, d)
 	if err != nil {
 		return
 	}
+	defer r.Body.Close()
 
-	res = Response(*r)
+	err = handleResponse(r, res, auth)
 	return
 }
 
@@ -91,7 +93,7 @@ func (c *Client) Sign(path, data string) (err error) {
 	var msg bytes.Buffer
 	_, err = msg.WriteString(path)
 	_, err = msg.WriteString(nonce)
-	if data != "" {
+	if data != "" && err == nil {
 		_, err = msg.WriteString(data)
 	}
 	if err != nil {
