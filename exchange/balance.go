@@ -1,6 +1,7 @@
 package exchange
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -16,6 +17,14 @@ type Balance struct {
 	Currency  string  `json:"currency"`
 	Available float64 `json:"available"`
 	Reserved  float64 `json:"reserved"`
+}
+
+func (b *Balance) String() (s string) {
+	s = fmt.Sprintf(
+		"(Balance) %s = Available: %.8f, Reserved: %.8f",
+		b.Currency, b.Available, b.Reserved,
+	)
+	return
 }
 
 type Balances []*Balance

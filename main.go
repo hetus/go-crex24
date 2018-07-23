@@ -9,6 +9,9 @@ import (
 func main() {
 	e := exchange.New()
 
+	/** Public */
+	fmt.Printf("\t*** PUBLIC ***\n\n")
+
 	// Currency
 	cs, err := e.Currencies()
 	if err != nil {
@@ -20,7 +23,7 @@ func main() {
 	if err != nil {
 		fmt.Printf("Currency (BTC): %v\n", err)
 	}
-	fmt.Printf("BTC: %v\n\n", c)
+	fmt.Printf("%v\n\n", c)
 
 	// Instrument
 	is, err := e.Instruments()
@@ -33,13 +36,30 @@ func main() {
 	if err != nil {
 		fmt.Printf("Instrument (LTC-BTC): %v\n", err)
 	}
-	fmt.Printf("LTC-BTC: %v\n\n", i)
+	fmt.Printf("%v\n\n", i)
 
 	i, err = e.Instrument("BTC-LTC")
 	if err != nil {
-		fmt.Printf("Instrument (BTC-LTC): %v\n", err)
+		fmt.Printf("(Error) Instrument (BTC-LTC): %v\n", err)
+	} else {
+		fmt.Printf("%v\n\n", i)
 	}
-	fmt.Printf("BTC-LTC: %v\n\n", i)
+
+	// Ticker
+	ts, err := e.Tickers()
+	if err != nil {
+		fmt.Printf("Tickers: %v", err)
+	}
+	fmt.Printf("Tickers: %d\n\n", len(ts))
+
+	t, err := e.Ticker("BTC-USD")
+	if err != nil {
+		fmt.Printf("Ticker (BTC-USD): %v\n", err)
+	}
+	fmt.Printf("%v\n\n", t)
+
+	/** Auth Required */
+	fmt.Printf("\t*** AUTH REQUIRED ***\n\n")
 
 	// Balance
 	bs, err := e.Balances(true)
@@ -52,5 +72,5 @@ func main() {
 	if err != nil {
 		fmt.Printf("Balance (BTC): %v\n", err)
 	}
-	fmt.Printf("BTC Balance: %v\n\n", b)
+	fmt.Printf("%v\n\n", b)
 }

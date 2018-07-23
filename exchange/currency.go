@@ -38,7 +38,7 @@ type Currency struct {
 
 func (c *Currency) String() (s string) {
 	s = fmt.Sprintf(
-		"%s (%s) Fiat: %t Delisted: %t",
+		"(Currency) %s (%s) = Fiat: %t, Delisted: %t",
 		c.Name, c.Symbol, c.IsFiat, c.IsDelisted,
 	)
 	return
