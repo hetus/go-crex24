@@ -1,4 +1,4 @@
-package crex24
+package exchange
 
 // EmptyParams creates a new params map object.
 func EmptyParams() (params map[string]string) {

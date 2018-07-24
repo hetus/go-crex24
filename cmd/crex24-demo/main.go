@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/hetus/go-crex24/crex24"
+	"github.com/hetus/go-crex24/exchange"
 )
 
 func main() {
-	e := crex24.New()
+	e := exchange.New()
 
 	/** Public */
 	fmt.Printf("\t*** PUBLIC ***\n\n")
@@ -78,7 +78,7 @@ func main() {
 	fmt.Printf("\t*** AUTH REQUIRED ***\n\n")
 
 	// Order
-	o := crex24.Order{
+	o := exchange.Order{
 		Instrument: "LTC-BTC",
 		Side:       "buy",
 		Price:      0.00000001,
