@@ -86,9 +86,6 @@ func (c *Client) Post(path string, d, res interface{}, auth bool) (err error) {
 // Sign adds the authentication information to the header.
 func (c *Client) Sign(path, data string) (err error) {
 	nonce := c.Nonce()
-	if c.debug {
-		fmt.Println("Sign:", path, nonce, data)
-	}
 
 	var msg bytes.Buffer
 	_, err = msg.WriteString(path)

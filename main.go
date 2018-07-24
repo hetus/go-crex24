@@ -84,11 +84,18 @@ func main() {
 		Price:      0.00000001,
 		Volume:     1.0,
 	}
-	o, err = e.PlaceOrder(&o)
+	no, err := e.PlaceOrder(&o)
 	if err != nil {
 		fmt.Printf("(Error) Place Order (LTC-BTC): %v\n\n", err)
 	} else {
-		fmt.Printf("%v\n\n", &o)
+		fmt.Printf("%v\n\n", &no)
+	}
+
+	os, err := e.OrderStatus(o.ID)
+	if err != nil {
+		fmt.Printf("(Error) Order Status: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &os)
 	}
 
 	// Balance

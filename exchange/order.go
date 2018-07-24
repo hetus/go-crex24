@@ -93,7 +93,13 @@ func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err 
 	return
 }
 
+func (e *Exchange) OrderStatus(id int64) (o Order, err error) {
+	params := EmptyParams()
+	err = e.getJSON("/v2/trading/orderStatus?id="+strconv.FormatInt(id, 10), params, &o, true)
+	return
+}
+
 func (e *Exchange) PlaceOrder(order *Order) (o Order, err error) {
-	err = e.postJSON("/v2/trading/placeOrder", order, &o, false)
+	err = e.postJSON("/v2/trading/placeOrder", order, &o, true)
 	return
 }
