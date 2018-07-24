@@ -105,6 +105,18 @@ func main() {
 		fmt.Printf("%v\n\n", &ot)
 	}
 
+	om := &exchange.OrderModify{
+		ID:        no.ID,
+		NewPrice:  0.00000002,
+		NewVolume: 2.0,
+	}
+	no2, err := e.OrderModify(om)
+	if err != nil {
+		fmt.Printf("(Error) Order Modify: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &no2)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {

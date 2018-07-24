@@ -79,6 +79,19 @@ type OrderTrades []*OrderTrade
 }
 */
 
+/*
+{
+  "id": 469708782,
+  "newPrice": 0.000028,
+  "newVolume": 3.14
+}
+*/
+type OrderModify struct {
+	ID        int64   `json:"id,omitempty"`
+	NewPrice  float64 `json:"newPrice,omitempty"`
+	NewVolume float64 `json:"newVolume,omitempty"`
+}
+
 type Order struct {
 	ID                 int64       `json:"id,omitempty"`
 	Timestamp          time.Time   `json:"timestamp,omitempty"`
@@ -116,6 +129,11 @@ func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err 
 		"/v2/public/orderBook?instrument="+instrument+"&limit="+strconv.FormatInt(limit, 10),
 		params, &ob, false,
 	)
+	return
+}
+
+func (e *Exchange) OrderModify(om *OrderModify) (o Order, err error) {
+	err = e.postJSON("/v2/trading/modifyOrder", om, &o, true)
 	return
 }
 
