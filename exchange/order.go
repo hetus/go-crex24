@@ -138,6 +138,11 @@ func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err 
 	return
 }
 
+func (e *Exchange) OrderCancellation(id []int64) (ids []int64, err error) {
+	err = e.postJSON("/v2/trading/cancelOrdersById", id, ids, true)
+	return
+}
+
 func (e *Exchange) OrderModify(om *OrderModify) (o Order, err error) {
 	err = e.postJSON("/v2/trading/modifyOrder", om, &o, true)
 	return

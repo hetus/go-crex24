@@ -124,6 +124,13 @@ func main() {
 		fmt.Printf("%v\n\n", &ao)
 	}
 
+	ids, err := e.OrderCancellation([]int64{no2.ID})
+	if err != nil {
+		fmt.Printf("(Error) Order Cancellation: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &ids)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {
