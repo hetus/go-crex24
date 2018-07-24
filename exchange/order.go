@@ -120,6 +120,12 @@ func (o *Order) String() (s string) {
 
 type Orders []*Order
 
+func (e *Exchange) ActiveOrders() (os Orders, err error) {
+	params := EmptyParams()
+	err = e.getJSON("/v2/trading/activeOrders", params, &os, true)
+	return
+}
+
 func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100 // Current API default

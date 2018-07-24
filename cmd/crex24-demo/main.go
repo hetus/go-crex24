@@ -117,6 +117,13 @@ func main() {
 		fmt.Printf("%v\n\n", &no2)
 	}
 
+	ao, err := e.ActiveOrders()
+	if err != nil {
+		fmt.Printf("(Error) Active Orders: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &ao)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {
