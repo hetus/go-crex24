@@ -1,4 +1,4 @@
-package exchange
+package crex24
 
 import (
 	"github.com/hetus/go-crex24/client"
