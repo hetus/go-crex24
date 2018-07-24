@@ -13,7 +13,7 @@ To configure you need to copy `.env.example` to `.env` in your local folder and 
 
 
 ## Run Demo
-`go run cmd/crex24-demo/main.go"
+`go run cmd/crex24-demo/main.go`
 
 
 ## Use
