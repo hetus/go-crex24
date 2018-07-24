@@ -35,6 +35,32 @@ type OrderBook struct {
 
 /*
 {
+    "id": 1939477,
+    "orderId": 416475861,
+    "timestamp": "2018-03-15T10:22:10Z",
+    "instrument": "LTC-BTC",
+    "side": "buy",
+    "price": 0.02,
+    "volume": 0.02,
+    "fee": 0.00002,
+    "feeCurrency": "LTC"
+  }
+*/
+type OrderTrade struct {
+	ID          int64   `json:"id,omitempty"`
+	OrderID     int64   `json:"orderId,omitempty"`
+	Instrument  string  `json:"instrument,omitempty"`
+	Side        string  `json:"side,omitempty"`
+	Price       float64 `json:"price,omitempty"`
+	Volume      float64 `json:"volume,omitempty"`
+	Fee         float64 `json:"fee,omitempty"`
+	FeeCurrency string  `json:"feeCurrency,omitempty"`
+}
+
+type OrderTrades []*OrderTrade
+
+/*
+{
   "id": 469594855,
   "timestamp": "2018-06-08T16:59:44Z",
   "instrument": "BTS-BTC",
@@ -96,6 +122,12 @@ func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err 
 func (e *Exchange) OrderStatus(id int64) (o Order, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/trading/orderStatus?id="+strconv.FormatInt(id, 10), params, &o, true)
+	return
+}
+
+func (e *Exchange) OrderTrades(id int64) (ot OrderTrade, err error) {
+	params := EmptyParams()
+	err = e.getJSON("/v2/trading/orderTrades?id="+strconv.FormatInt(id, 10), params, &ot, true)
 	return
 }
 

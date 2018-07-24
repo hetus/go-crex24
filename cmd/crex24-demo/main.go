@@ -98,6 +98,13 @@ func main() {
 		fmt.Printf("%v\n\n", &os)
 	}
 
+	ot, err := e.OrderTrades(o.ID)
+	if err != nil {
+		fmt.Printf("(Error) Order Trades: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &ot)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {
