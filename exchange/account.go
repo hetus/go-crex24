@@ -110,3 +110,9 @@ func (e *Exchange) MoneyTransfers(currency, t string) (ms *MoneyTransfers, err e
 	err = e.getJSON("/v2/account/moneyTransfers?currency="+currency+"&type="+t, params, &ms, true)
 	return
 }
+
+func (e *Exchange) MoneyTransferStatus(ids string) (ms *MoneyTransfers, err error) {
+	params := EmptyParams()
+	err = e.getJSON("/v2/account/moneyTransferStatus?id="+ids, params, &ms, true)
+	return
+}

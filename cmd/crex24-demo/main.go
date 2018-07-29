@@ -176,4 +176,10 @@ func main() {
 		fmt.Printf("(Error) Money Transfers (BTC deposit): %v\n", err)
 	}
 	fmt.Printf("%v\n\n", ms)
+
+	ms, err = e.MoneyTransferStatus("")
+	if err != nil {
+		fmt.Printf("(Error) Money Transfer Status (%d): %v\n", "", err)
+	}
+	fmt.Printf("%v\n\n", ms)
 }
