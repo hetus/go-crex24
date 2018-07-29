@@ -41,8 +41,5 @@ func main() {
 
 
 ## TODO
-- Finished adding v2 endpoints
 - Added validation to endpoints
 - Write tests for endpoints
-- Release to public
-- Contact Crex24
