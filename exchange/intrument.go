@@ -2,22 +2,7 @@ package exchange
 
 import "fmt"
 
-/*
-{
-    "symbol": "$PAC-BTC",
-    "baseCurrency": "$PAC",
-    "quoteCurrency": "BTC",
-    "feeCurrency": "BTC",
-    "tickSize": 0.00000001,
-    "minPrice": 0.00000001,
-    "minVolume": 1.0,
-    "supportedOrderTypes": [
-      "limit"
-    ],
-    "state": "active"
-  }
-*/
-
+// Instrument
 type Instrument struct {
 	Symbol              string   `json:"symbol,omitempty"`
 	BaseCurrency        string   `json:"baseCurrency,omitempty"`
@@ -30,6 +15,7 @@ type Instrument struct {
 	State               string   `json:"state,omitempty"`
 }
 
+// String
 func (i *Instrument) String() (s string) {
 	s = fmt.Sprintf(
 		"(Instrument) %s = Base: %s, Quote: %s, Tick Size: %.8f, Min. Price: %.8f, Min. Volume: %.8f",
@@ -38,8 +24,10 @@ func (i *Instrument) String() (s string) {
 	return
 }
 
+// Instruments
 type Instruments []*Instrument
 
+// Instrument
 func (e *Exchange) Instrument(symbol string) (i *Instrument, err error) {
 	params := EmptyParams()
 
@@ -51,6 +39,7 @@ func (e *Exchange) Instrument(symbol string) (i *Instrument, err error) {
 	return
 }
 
+// Instruments
 func (e *Exchange) Instruments() (is Instruments, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/public/instruments", params, &is, false)

@@ -6,15 +6,7 @@ import (
 	"time"
 )
 
-/*
-{
-    "price": 0.0159019,
-    "volume": 0.043717,
-    "side": "buy",
-    "timestamp": "2018-05-31T10:08:53Z"
-  }
-*/
-
+// RecentTrade
 type RecentTrade struct {
 	Price     float64   `json:"price,omitempty"`
 	Volume    float64   `json:"volume,omitempty"`
@@ -22,6 +14,7 @@ type RecentTrade struct {
 	Timestamp time.Time `json:"timestamp,omitempty"`
 }
 
+// String
 func (t *RecentTrade) String() (s string) {
 	s = fmt.Sprintf(
 		"(Trade) %s = Date: %s Price: %.8f, Volume: %.8f",
@@ -30,22 +23,10 @@ func (t *RecentTrade) String() (s string) {
 	return
 }
 
+// RecentTrades
 type RecentTrades []*RecentTrade
 
-/*
-{
-    "id": 3005866,
-    "orderId": 468533093,
-    "timestamp": "2018-06-02T16:26:27Z",
-    "instrument": "BCH-ETH",
-    "side": "buy",
-    "price": 1.78882,
-    "volume": 0.027,
-    "fee": 0.0000483,
-    "feeCurrency": "ETH"
-  }
-*/
-
+// Trade
 type Trade struct {
 	ID          int64     `json:"id"`
 	OrderId     int64     `json:"orderId,omitempty"`
@@ -58,17 +39,10 @@ type Trade struct {
 	FeeCurrency string    `json:"feeCurrency,omitempty"`
 }
 
+// Trades
 type Trades []*Trade
 
-/*
-{
-  "makerFeeRate": -0.0001,
-  "takerFeeRate": 0.001,
-  "tradeVolume": 1.1201,
-  "lastUpdate" : "2017-12-31T23:59:59Z"
-}
-*/
-
+// TradeFee
 type TradeFee struct {
 	MakerFeeRate float64   `json:"makerFeeRate,omitempty"`
 	TakerFeeRate float64   `json:"takerFeeRate,omitempty"`
@@ -76,6 +50,7 @@ type TradeFee struct {
 	LastUpdate   time.Time `json:"lastUpdate,omitempty"`
 }
 
+// RecentTrades
 func (e *Exchange) RecentTrades(instrument string, limit int64) (ts RecentTrades, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100 // Current API default
@@ -88,12 +63,14 @@ func (e *Exchange) RecentTrades(instrument string, limit int64) (ts RecentTrades
 	return
 }
 
+// TradeFee
 func (e *Exchange) TradeFee() (tf TradeFee, err error) {
 	params := EmptyParams()
 	err = e.postJSON("/v2/trading/tradeFee", params, &tf, true)
 	return
 }
 
+// TradeHistory
 func (e *Exchange) TradeHistory(instrument string, limit int64) (ts Trades, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100

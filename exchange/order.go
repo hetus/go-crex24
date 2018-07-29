@@ -6,20 +6,13 @@ import (
 	"time"
 )
 
-/*
-{
-    "price": 0.0159019,
-    "volume": 0.043717,
-    "side": "buy",
-    "timestamp": "2018-05-31T10:08:53Z"
-  }
-*/
-
+// OBOrder
 type OBOrder struct {
 	Price  float64 `json:"price"`
 	Volume float64 `json:"volume"`
 }
 
+// String
 func (o *OBOrder) String() (s string) {
 	s = fmt.Sprintf(
 		"(Order) Price: %.8f, Volume: %.8f",
@@ -28,24 +21,13 @@ func (o *OBOrder) String() (s string) {
 	return
 }
 
+// OrderBook
 type OrderBook struct {
 	Buy  []*OBOrder `json:"buyLevels"`
 	Sell []*OBOrder `json:"sellLevels"`
 }
 
-/*
-{
-    "id": 1939477,
-    "orderId": 416475861,
-    "timestamp": "2018-03-15T10:22:10Z",
-    "instrument": "LTC-BTC",
-    "side": "buy",
-    "price": 0.02,
-    "volume": 0.02,
-    "fee": 0.00002,
-    "feeCurrency": "LTC"
-  }
-*/
+// OrderTrade
 type OrderTrade struct {
 	ID          int64   `json:"id,omitempty"`
 	OrderID     int64   `json:"orderId,omitempty"`
@@ -57,41 +39,17 @@ type OrderTrade struct {
 	FeeCurrency string  `json:"feeCurrency,omitempty"`
 }
 
+// OrderTrades
 type OrderTrades []*OrderTrade
 
-/*
-{
-  "id": 469594855,
-  "timestamp": "2018-06-08T16:59:44Z",
-  "instrument": "BTS-BTC",
-  "side": "buy",
-  "type": "limit",
-  "status": "submitting",
-  "cancellationReason": null,
-  "timeInForce": "GTC",
-  "volume": 4.0,
-  "price": 0.000025,
-  "stopPrice": null,
-  "remainingVolume": 4.0,
-  "lastUpdate": null,
-  "parentOrderId": null,
-  "childOrderId": null
-}
-*/
-
-/*
-{
-  "id": 469708782,
-  "newPrice": 0.000028,
-  "newVolume": 3.14
-}
-*/
+// OrderModify
 type OrderModify struct {
 	ID        int64   `json:"id,omitempty"`
 	NewPrice  float64 `json:"newPrice,omitempty"`
 	NewVolume float64 `json:"newVolume,omitempty"`
 }
 
+// Order
 type Order struct {
 	ID                 int64       `json:"id,omitempty"`
 	Timestamp          time.Time   `json:"timestamp,omitempty"`
@@ -110,6 +68,7 @@ type Order struct {
 	ChildOrderID       interface{} `json:"childOrderId,omitempty"`
 }
 
+// String
 func (o *Order) String() (s string) {
 	s = fmt.Sprintf(
 		"(Order) %d (%s) = Side: %s, Price: %.8f, Volume: %.8f",
@@ -118,14 +77,17 @@ func (o *Order) String() (s string) {
 	return
 }
 
+// Orders
 type Orders []*Order
 
+// ActiveOrders
 func (e *Exchange) ActiveOrders() (os Orders, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/trading/activeOrders", params, &os, true)
 	return
 }
 
+// OrderBook
 func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100 // Current API default
@@ -138,11 +100,13 @@ func (e *Exchange) OrderBook(instrument string, limit int64) (ob OrderBook, err 
 	return
 }
 
+// OrderCancellation
 func (e *Exchange) OrderCancellation(id []int64) (ids []int64, err error) {
 	err = e.postJSON("/v2/trading/cancelOrdersById", id, ids, true)
 	return
 }
 
+// OrderHistory
 func (e *Exchange) OrderHistory(instrument string, limit int64) (os Orders, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100
@@ -155,23 +119,27 @@ func (e *Exchange) OrderHistory(instrument string, limit int64) (os Orders, err 
 	return
 }
 
+// OrderModify
 func (e *Exchange) OrderModify(om *OrderModify) (o Order, err error) {
 	err = e.postJSON("/v2/trading/modifyOrder", om, &o, true)
 	return
 }
 
+// OrderStatus
 func (e *Exchange) OrderStatus(id int64) (o Order, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/trading/orderStatus?id="+strconv.FormatInt(id, 10), params, &o, true)
 	return
 }
 
+// OrderTrades
 func (e *Exchange) OrderTrades(id int64) (ot OrderTrade, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/trading/orderTrades?id="+strconv.FormatInt(id, 10), params, &ot, true)
 	return
 }
 
+// PlaceOrder
 func (e *Exchange) PlaceOrder(order *Order) (o Order, err error) {
 	err = e.postJSON("/v2/trading/placeOrder", order, &o, true)
 	return

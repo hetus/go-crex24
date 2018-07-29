@@ -5,23 +5,7 @@ import (
 	"time"
 )
 
-/*
-{
-    "instrument": "$PAC-BTC",
-    "last": 0.0000005,
-    "percentChange": 8.6957,
-    "low": 0.00000046,
-    "high": 0.0000005,
-    "baseVolume": 144.855144855145,
-    "quoteVolume": 0.0000724275724275725,
-    "volumeInBtc": 0.0000724275724275725,
-    "volumeInUsd": 0.538195529470530008725,
-    "ask": 0.0000005,
-    "bid": 0.00000046,
-    "timestamp": "2018-05-31T12:48:56Z"
-  }
-*/
-
+// Ticker
 type Ticker struct {
 	Instrument    string    `json:"instrument,omitempty"`
 	Last          float64   `json:"last,omitempty"`
@@ -37,6 +21,7 @@ type Ticker struct {
 	Timestamp     time.Time `json:"timestamp,omitempty"`
 }
 
+// String
 func (t *Ticker) String() (s string) {
 	s = fmt.Sprintf(
 		"(Ticker) %s = Last: %.8f, High: %.8f, Low: %.8f, Ask: %.8f, Bid: %.8f, Volume (BTC): %.8f",
@@ -45,8 +30,10 @@ func (t *Ticker) String() (s string) {
 	return
 }
 
+// Tickers
 type Tickers []*Ticker
 
+// Ticker
 func (e *Exchange) Ticker(instrument string) (t *Ticker, err error) {
 	params := EmptyParams()
 
@@ -58,6 +45,7 @@ func (e *Exchange) Ticker(instrument string) (t *Ticker, err error) {
 	return
 }
 
+// Tickers
 func (e *Exchange) Tickers() (ts Tickers, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/public/tickers", params, &ts, false)
