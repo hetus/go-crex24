@@ -170,4 +170,10 @@ func main() {
 		fmt.Printf("(Error) Deposit Address (BTC): %v\n", err)
 	}
 	fmt.Printf("%v\n\n", da)
+
+	ms, err := e.MoneyTransfers("BTC", "deposit")
+	if err != nil {
+		fmt.Printf("(Error) Money Transfers (BTC deposit): %v\n", err)
+	}
+	fmt.Printf("%v\n\n", ms)
 }
