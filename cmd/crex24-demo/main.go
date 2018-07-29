@@ -182,4 +182,22 @@ func main() {
 		fmt.Printf("(Error) Money Transfer Status (%d): %v\n", "", err)
 	}
 	fmt.Printf("%v\n\n", ms)
+
+	wp, err := e.WithdrawalPreview("BTC", 1.0, true)
+	if err != nil {
+		fmt.Printf("(Error) Withdrawal Preview: %v\n", err)
+	}
+	fmt.Printf("%v\n\n", wp)
+
+	mt, err := e.Withdrawal(&exchange.WithdrawalRequest{
+		Currency:   "BTC",
+		Address:    "SOMEADDRESS",
+		PaymentID:  nil,
+		Amount:     1.0,
+		IncludeFee: false,
+	})
+	if err != nil {
+		fmt.Printf("(Error) Withdrawal: %v\n", err)
+	}
+	fmt.Printf("%v\n\n", mt)
 }

@@ -82,6 +82,66 @@ type MoneyTransfer struct {
 
 type MoneyTransfers []*MoneyTransfer
 
+/*
+{
+  "warning": null,
+  "balanceDeduction": 1.5005,
+  "fee": 0.0005,
+  "payout": 1.5
+}
+*/
+
+type WithdrawalPreview struct {
+	Warning          interface{} `json:"warning,omitempty"`
+	BalanceDeduction float64     `json:"balanceDeduction,omitempty"`
+	Fee              float64     `json:"fee,omitempty"`
+	Payout           float64     `json:"payout,omitempty"`
+}
+
+/*
+{
+  "id": 737551,
+  "type": "withdrawal",
+  "currency": "ETH",
+  "address": "0x184189a9187c918ef91875641f9781a9187b75a7",
+  "paymentId": "",
+  "amount": 54.1,
+  "fee": 0.005,
+  "txId": "0x1983645416f16a16c1687643086f7c91767a9817b981765140c8176871fc79fa",
+  "createdAt": "2018-06-01T06:48:32Z",
+  "processedAt": "2018-06-01T07:20:14Z",
+  "confirmationsRequired": 12,
+  "confirmationCount": 12,
+  "status": "success",
+  "errorDescription": null
+}
+*/
+
+type Withdrawal struct {
+	ID                    int64       `json:"id,omitempty"`
+	Type                  string      `json:"type,omitempty"`
+	Currency              string      `json:"currency,omitempty"`
+	Address               string      `json:"address,omitempty"`
+	PaymentID             interface{} `json:"paymentId,omitempty"`
+	Amount                float64     `json:"amount,omitempty"`
+	Fee                   interface{} `json:"fee,omitempty"`
+	TxID                  string      `json:"txId,omitempty"`
+	CreatedAt             time.Time   `json:"createdAt,omitempty"`
+	ProcessedAt           time.Time   `json:"processedAt,omitempty"`
+	ConfirmationsRequired int64       `json:"confirmationsRequired,omitempty"`
+	ConfirmationCount     int64       `json:"confirmationCount,omitempty"`
+	Status                string      `json:"status,omitempty"`
+	ErrorDescription      interface{} `json:"errorDescription,omitempty"`
+}
+
+type WithdrawalRequest struct {
+	Currency   string      `json:"currency,omitempty"`
+	Address    string      `json:"address,omitempty"`
+	PaymentID  interface{} `json:"paymentId,omitempty"`
+	Amount     float64     `json:"amount,omitempty"`
+	IncludeFee bool        `json:"includeFee,omitempty"`
+}
+
 func (e *Exchange) Balance(currency string) (b *Balance, err error) {
 	params := EmptyParams()
 
@@ -114,5 +174,19 @@ func (e *Exchange) MoneyTransfers(currency, t string) (ms *MoneyTransfers, err e
 func (e *Exchange) MoneyTransferStatus(ids string) (ms *MoneyTransfers, err error) {
 	params := EmptyParams()
 	err = e.getJSON("/v2/account/moneyTransferStatus?id="+ids, params, &ms, true)
+	return
+}
+
+func (e *Exchange) Withdrawal(wr *WithdrawalRequest) (mt *MoneyTransfer, err error) {
+	err = e.postJSON("/v2/account/withdraw", wr, &mt, true)
+	return
+}
+
+func (e *Exchange) WithdrawalPreview(currency string, amount float64, includeFee bool) (wp *WithdrawalPreview, err error) {
+	params := EmptyParams()
+	err = e.getJSON(
+		"/v2/account/previewWithdrawal?currency="+currency+"&amount="+fmt.Sprintf("%.f", amount)+"&includeFee="+strconv.FormatBool(includeFee),
+		params, &wp, includeFee,
+	)
 	return
 }
