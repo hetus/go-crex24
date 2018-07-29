@@ -143,6 +143,18 @@ func (e *Exchange) OrderCancellation(id []int64) (ids []int64, err error) {
 	return
 }
 
+func (e *Exchange) OrderHistory(instrument string, limit int64) (os Orders, err error) {
+	if limit < 1 || limit > 1000 {
+		limit = 100
+	}
+	params := EmptyParams()
+	err = e.getJSON(
+		"/v2/trading/orderHistory?instrument="+instrument+"&limit="+strconv.FormatInt(limit, 10),
+		params, &os, true,
+	)
+	return
+}
+
 func (e *Exchange) OrderModify(om *OrderModify) (o Order, err error) {
 	err = e.postJSON("/v2/trading/modifyOrder", om, &o, true)
 	return

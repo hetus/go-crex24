@@ -131,6 +131,13 @@ func main() {
 		fmt.Printf("%v\n\n", &ids)
 	}
 
+	oh, err := e.OrderHistory("LTC-BTC", 5)
+	if err != nil {
+		fmt.Printf("(Error) Order History (LTC-BTC): %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &oh)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {
