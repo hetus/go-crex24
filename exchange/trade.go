@@ -60,6 +60,22 @@ type Trade struct {
 
 type Trades []*Trade
 
+/*
+{
+  "makerFeeRate": -0.0001,
+  "takerFeeRate": 0.001,
+  "tradeVolume": 1.1201,
+  "lastUpdate" : "2017-12-31T23:59:59Z"
+}
+*/
+
+type TradeFee struct {
+	MakerFeeRate float64   `json:"makerFeeRate,omitempty"`
+	TakerFeeRate float64   `json:"takerFeeRate,omitempty"`
+	TradeVolume  float64   `json:"tradeVolume,omitempty"`
+	LastUpdate   time.Time `json:"lastUpdate,omitempty"`
+}
+
 func (e *Exchange) RecentTrades(instrument string, limit int64) (ts RecentTrades, err error) {
 	if limit < 1 || limit > 1000 {
 		limit = 100 // Current API default
@@ -69,6 +85,12 @@ func (e *Exchange) RecentTrades(instrument string, limit int64) (ts RecentTrades
 		"/v2/public/recentTrades?instrument="+instrument+"&limit="+strconv.FormatInt(limit, 10),
 		params, &ts, false,
 	)
+	return
+}
+
+func (e *Exchange) TradeFee() (tf TradeFee, err error) {
+	params := EmptyParams()
+	err = e.postJSON("/v2/trading/tradeFee", params, &tf, true)
 	return
 }
 

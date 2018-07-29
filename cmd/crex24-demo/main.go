@@ -145,6 +145,13 @@ func main() {
 		fmt.Printf("%v\n\n", &th)
 	}
 
+	tf, err := e.TradeFee()
+	if err != nil {
+		fmt.Printf("(Error) Trade Fee: %v\n\n", err)
+	} else {
+		fmt.Printf("%v\n\n", &tf)
+	}
+
 	// Balance
 	bs, err := e.Balances(true)
 	if err != nil {
