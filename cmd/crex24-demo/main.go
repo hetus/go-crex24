@@ -152,7 +152,7 @@ func main() {
 		fmt.Printf("%v\n\n", &tf)
 	}
 
-	// Balance
+	// Account
 	bs, err := e.Balances(true)
 	if err != nil {
 		fmt.Printf("(Error) Balances: %v\n", err)
@@ -164,4 +164,10 @@ func main() {
 		fmt.Printf("(Error) Balance (BTC): %v\n", err)
 	}
 	fmt.Printf("%v\n\n", b)
+
+	da, err := e.DepositAddress("BTC")
+	if err != nil {
+		fmt.Printf("(Error) Deposit Address (BTC): %v\n", err)
+	}
+	fmt.Printf("%v\n\n", da)
 }
