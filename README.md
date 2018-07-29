@@ -43,3 +43,4 @@ func main() {
 ## TODO
 - Added validation to endpoints
 - Write tests for endpoints
+- Clean code
